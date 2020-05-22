@@ -9,15 +9,15 @@ class Model:
     """ Model implementa um ambiente na forma de um labirinto com paredes e com um agente.
     A indexação da posição do agente é feita sempre por um par ordenado (lin, col).
     Ver classe Labirinto.
-     """
+    """
 
     def __init__(self, rows, columns):
-        """Construtor de modelo do ambiente físico (labirinto)
-        @param rows: número de linhas do labirinto
-        @param columns: número de colunas do labirinto
+        """ Construtor de modelo do ambiente físico (labirinto).
+
+        Parameters:
+            rows (int): número de linhas do labirinto
+            columns (int): número de colunas do labirinto
         """
-        # self.max_rows = rows
-        # self.max_columns = columns
         self.maze = Maze(rows, columns)
         self.current_state = State(rows, columns)
         self.goal_state = State(rows, columns)
@@ -53,6 +53,12 @@ class Model:
             return True
 
     def set_player_coord(self, row, col):
+        """ Registra no modelo a posicão do jogador.
+
+        Parameters:
+            row (int): posicão, em linhas.
+            col (int): posicão, em colunas.
+        """
         coord = Coordinate(row, col)
         if self.check_coord(coord):
             self.current_state.player = coord
@@ -88,6 +94,15 @@ class Model:
             raise ValueError("Coordenadas do elemento impossível de serem atribuídas.")
 
     def distance_index(self, state):
+        """ Método para calcular a distância em coluna do estado passado com
+        argumento até o estado objetivo.
+
+        Parameters:
+            state (State): estado para o qual se quer calcular o valor de h(n).
+
+        Returns:
+            double: valor obtido com o caĺculo da funcão HN1.
+        """
         goals = self.goal_state.get_elements()
         boxes = state.get_elements()
         great_dist = -1
@@ -99,7 +114,16 @@ class Model:
         return great_dist
 
     def block_index(self, state):
-        index = state.get_element_count() * 4
+        """ Método para calcular o número de graus de bloqueio que
+        o estado em análise apresenta.
+
+        Parameters:
+            state (State): estado para o qual se quer calcular o valor de h(n).
+
+        Returns:
+            double: valor obtido com o caĺculo da funcão HN2.
+        """
+        index = len(state.get_elements()) * 4
         for col in range(1, len(self.maze.walls[0])-1):
             for row in range(1, len(self.maze.walls)-1):
                 # Calcula os graus de bloqueio.

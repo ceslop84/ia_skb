@@ -1,32 +1,47 @@
+""" Módulo que implementa nó de árvore de busca."""
+
 class Node:
-    """Implementa nó de árvore de busca."""
+    """ Classe que implementa nó de árvore de busca."""
 
     def __init__(self, parent):
-        """Construtor do nó.
-        @param parent: pai do nó construído."""
+        """ Construtor do nó.
+
+        Parameters:
+            parent (Node): pai do nó construído.
+        """
         self.parent = parent
         self.state = None   # estado
-        self.gn = 0        # g(n) custo acumulado até o nó
-        self.hn = 0        # h(n) heurística a partir do nó
+        self.custo_gn = 0        # g(n) custo acumulado até o nó
+        self.custo_hn = 0        # h(n) heurística a partir do nó
         self.depth = 0      # armazena a profundidade do nó
         self.children = []
         self.action = 0    # ação que levou ao estado
         self.direction = 0
 
-    def set_gn_hn(self, gn, hn):
-        """Atribui valores aos atributos gn e hn.
-        @param gn: representa o custo acumulado da raiz até o nó.
-        @param hn: representa o valor da heurística do nó até o objetivo."""
-        self.gn = gn
-        self.hn = hn
+    def set_gn_hn(self, custo_gn, custo_hn):
+        """ Atribui valores aos atributos gn e hn.
+
+        Parameters:
+            custo_gn (double): representa o custo acumulado da raiz até o nó.
+            custo_hn (double): representa o valor da heurística do nó até o objetivo.
+        """
+        self.custo_gn = custo_gn
+        self.custo_hn = custo_hn
 
     def get_fn(self):
-        """Retorna o valor da função de avaliação f(n)"""
-        return self.gn + self.hn
+        """Retorna o valor da função de avaliação f(n).
+
+        Returns:
+            double: valor da funcão de avaliacão f(n)
+        """
+        return self.custo_gn + self.custo_hn
 
     def add_child(self):
-        """Este método instância um nó de self e cria uma associação entre o pai(self) e o filho.
-        @return O nó filho instânciado."""
+        """ Este método instância um nó de self e cria uma associação entre o pai(self) e o filho.
+
+        Returns
+            None: Instância tipo Node com o nó filho criado.
+        """
         child = Node(self)
         child.depth = self.depth + 1
         self.children.append(child)
@@ -40,6 +55,6 @@ class Node:
 
     def __str__(self):
         return "<{0} g:{1:.2f} h:{2:.2f} f:{3:.2f}>".format(self.state,
-                                                            self.gn,
-                                                            self.hn,
+                                                            self.custo_gn,
+                                                            self.custo_hn,
                                                             self.get_fn())

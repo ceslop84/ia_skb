@@ -61,7 +61,7 @@ class Problem:
             if (boxes[row+action.delta_row][col+action.delta_col] != 0 and
                     walls[row+action.delta_row*2][col+action.delta_col*2] == 0 and
                     boxes[row+action.delta_row*2][col+action.delta_col*2] == 0): # Norte
-                action.push(Coordinate(row+action.delta_row, col+action.delta_col))
+                action.push(coordinate)
             # Testa se há parede na direção testada.
             if (walls[row+action.delta_row][col+action.delta_col] == 0 and
                     boxes[row+action.delta_row][col+action.delta_col] == 0):

@@ -1,3 +1,6 @@
+""" Módulo para desenho dos resultados em tela."""
+from pkg.coordinate import Coordinate
+
 class View:
     """Desenha o ambiente (o que está representado no Model) em formato texto."""
     def __init__(self, model):
@@ -20,16 +23,16 @@ class View:
             for col in range(len(self.model.maze.walls[0])):
                 if self.model.maze.walls[row][col] == 1:
                     print("|XXX", end='')    # Desenha parede
-                elif self.model.goal_state.get_element_by_coord(row, col):
+                elif self.model.goal_state.get_element(Coordinate(row, col)):
                     if state.player.row == row and state.player.col == col:
-                        print("|G-A", end='')    # Desenha objetivo e Agente.
-                    elif state.get_element_by_coord(row, col):
+                        print("|G-P", end='')    # Desenha objetivo e jogador.
+                    elif state.get_element(Coordinate(row, col)):
                         print("|G-B", end='')    # Desenha objetivo e caixa.
                     else:
                         print("|  G", end='')    # Desenha objetivo
                 elif state.player.row == row and state.player.col == col:
-                    print("|  A", end='')    # Desenha agente
-                elif state.get_element_by_coord(row, col):
+                    print("|  P", end='')    # Desenha jogador
+                elif state.get_element(Coordinate(row, col)):
                     print("|  B", end='')    # Desenha caixa.
                 else:
                     print("|   ", end='')    # Desenha vazio

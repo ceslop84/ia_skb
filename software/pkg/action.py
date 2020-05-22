@@ -51,6 +51,11 @@ class Action:
         return Coordinate(row, col)
 
     def is_possible(self):
+        """Método para verificar se determinada acão é possível.
+
+        Returns:
+            Boolean: indicacão se a acão é possível ou não (true/false).
+        """
         if self.type is None:
             return False
         elif self.type == "Mover":
@@ -61,14 +66,25 @@ class Action:
             raise ValueError("Ação desconhecida.")
 
     def push(self, coordinate):
+        """Método determinar o tipo da acão como empurrar
+        e calcular a posicão futura da caixa associada.
+
+        Parameters:
+            coordinate (Coordinate): Coordenadas da posicão atual.
+        """
         self.type = "Empurrar"
-        self.element_coordinate = coordinate
+        self.element_coordinate = Coordinate(coordinate.row+self.delta_row,
+                                             coordinate.col+self.delta_col)
 
     def move(self):
+        """Método determinar o tipo da acão como mover.
+        """
         self.type = "Mover"
 
     def get_action_cost(self):
-        """Retorna o custo da ação.
-        @param action:
-        @return custo da ação"""
+        """Método para retornar o custo da acão..
+
+        Returns:
+            Boolean: indicacão se a acão é possível ou não (true/false).
+        """
         return 1.0

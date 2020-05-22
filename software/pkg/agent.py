@@ -1,3 +1,4 @@
+""" Módulo para o agente de inteligência artificial."""
 from pkg.node import Node
 from pkg.problem import Problem
 
@@ -8,7 +9,14 @@ A_START_2 = 2
 
 # Funções utilitárias
 def build_plan(solution_node):
-    #@TODO: Implementação do aluno
+    """Método calcular o plano da solucão.
+
+    Parameters:
+        solution_node(Node): Objeto do tipo Node (class) com a referência à solućão obtida.
+
+    Returns:
+        list: Referência para reconstituicão da solucão, nó a nó.
+    """
     depth = solution_node.depth
     solution = [0 for i in range(depth)]
     parent = solution_node
@@ -19,6 +27,7 @@ def build_plan(solution_node):
     return solution
 
 class Agent:
+    """ Classe para o agente de inteligência artificial."""
 
     def __init__(self, model):
         """Construtor do agente.
@@ -30,6 +39,11 @@ class Agent:
         self.plan = None
 
     def deliberate(self):
+        """ Método para deliberar sobre a solucão do problema.
+
+        Returns:
+            boolean: Indicativo para informar se a solucão foi encontrada ou não.
+        """
         # Primeira chamada, realiza busca para elaborar um plano
         if self.counter == -1:
             # 0 = custo uniforme, 1 = A* com colunas, 2 = A* com dist Euclidiana
@@ -55,23 +69,40 @@ class Agent:
     def hn1(self, state):
         """Implementa uma heurísitca - número 1 - para a estratégia A*.
         No caso hn1 é a distância em coluna do estado passado com argumento até o estado objetivo.
-        @param state: estado para o qual se quer calcular o valor de h(n)."""
-        # @TODO: Implementação do aluno
+
+        Parameters:
+            state (State): estado para o qual se quer calcular o valor de h(n).
+
+        Returns:
+            double: valor obtido com o caĺculo da funcão HN1.
+        """
+
         return self.model.distance_index(state)
 
     def hn2(self, state):
         """Implementa uma heurísitca - número 2 - para a estratégia A*.
-        No caso hn1 é a distância distância euclidiana do estado passado
-        com argumento até o estado objetivo.
-        @param state: estado para o qual se quer calcular o valor de h(n)."""
-        # @TODO: Implementação do aluno
+        No caso hn2 é uma referência ao número de graus de bloqueio que
+        o estado em análise apresenta.
+
+        Parameters:
+            state (State): estado para o qual se quer calcular o valor de h(n).
+
+        Returns:
+            double: valor obtido com o caĺculo da funcão HN2.
+        """
         return self.model.block_index(state)
 
     def cheapest_first_search(self, search_type):
-        """Realiza busca com a estratégia de custo uniforme ou A* conforme escolha
+        """ Realiza busca com a estratégia de custo uniforme ou A* conforme escolha
         realizada na chamada.
-        @param searchType: 0=custo uniforme, 1=A* com heurística hn1; 2=A* com hn2
-        @return plano encontrado"""
+
+        Parameters:
+            searchType: 0=custo uniforme, 1=A* com heurística hn1; 2=A* com hn2
+
+        Returns:
+            Node: plano encontrado
+        """
+
         # Algoritmo de busca
         solution = None
         # Atributos para análise de desempenho
@@ -118,7 +149,7 @@ class Agent:
                 child.action = action
 
                 # Custo g(n): custo acumulado da raiz até o nó filho
-                gn_child = sel_node.gn + action.get_action_cost()
+                gn_child = sel_node.custo_gn + action.get_action_cost()
                 if search_type == UNIFORME_COST:
                     # Deixa h(n) zerada porque é busca de custo uniforme
                     child.set_gn_hn(gn_child, 0)
