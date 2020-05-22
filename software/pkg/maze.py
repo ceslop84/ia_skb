@@ -1,6 +1,11 @@
+""" Módulo para a geracão de labirintos do jogo Sokoban."""
+
 class Maze:
-    """Maze representa um labirinto com paredes. A indexação das posições do labirinto é dada por par ordenado (linha, coluna).
-    A linha inicial é zero e a linha máxima é (maxLin - 1). A coluna inicial é zero e a máxima é (maxCol - 1)."""
+    """ Maze representa um labirinto com paredes.
+    A indexação das posições do labirinto é dada por par ordenado (linha, coluna).
+    A linha inicial é zero e a linha máxima é (maxLin - 1).
+    A coluna inicial é zero e a máxima é (maxCol - 1).
+    """
 
     def __init__(self, max_rows, max_columns):
         """Construtor do labirinto
@@ -9,8 +14,9 @@ class Maze:
         """
         self.max_rows = max_rows
         self.max_columns = max_columns
-        self.walls = [[0 for j in range(self.max_columns)] for i in range(self.max_rows)] # Matriz que representa o labirinto sendo as posições = 0 aquelas que contêm paredes
+        # Matriz que representa o labirinto sendo as posições = 0 aquelas que contêm paredes
         # Criar paredes no entorno do labirinto.
+        self.walls = [[0 for j in range(self.max_columns)] for i in range(self.max_rows)]
         self.add_vert_wall(0, self.max_rows-1, 0)
         self.add_vert_wall(0, self.max_rows-1, self.max_rows-1)
         self.add_horiz_wall(0, self.max_columns-1, 0)
@@ -21,15 +27,23 @@ class Maze:
         @param begin: coluna inicial entre 0 e max_columns - 1.
         @param end: coluna final (deve ser maior que begin).
         @param row: linha onde a parede deve ser colocada."""
-        if(end >= begin and begin >= 0 and end < self.max_columns and row >= 0 and row < self.max_rows):
-            for col in range(begin,end+1,1):
+        if(end >= begin and
+           begin >= 0 and
+           end < self.max_columns and
+           row >= 0 and
+           row < self.max_rows):
+            for col in range(begin, end+1, 1):
                 self.walls[row][col] = 1
-    
+
     def add_vert_wall(self, begin, end, col):
         """Constrói parede horizontal da linha begin até a linha end(inclusive) na coluna col.
         @param begin: linha inicial entre 0 e max_rows - 1.
         @param end: linha final (deve ser maior que begin).
         @param col: coluna onde a parede deve ser colocada."""
-        if(end >= begin and begin >= 0 and end < self.max_rows and col >= 0 and col < self.max_columns):
-            for row in range(begin,end+1,1):
+        if(end >= begin and
+           begin >= 0 and
+           end < self.max_rows and
+           col >= 0 and
+           col < self.max_columns):
+            for row in range(begin, end+1, 1):
                 self.walls[row][col] = 1

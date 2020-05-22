@@ -1,12 +1,10 @@
-from pkg.state import State
-
 class Node:
     """Implementa nó de árvore de busca."""
 
     def __init__(self, parent):
         """Construtor do nó.
         @param parent: pai do nó construído."""
-        self.parent = parent    
+        self.parent = parent
         self.state = None   # estado
         self.gn = 0        # g(n) custo acumulado até o nó
         self.hn = 0        # h(n) heurística a partir do nó
@@ -39,6 +37,9 @@ class Node:
         removed = self.parent.children.remove(self)
         if not removed:
             print("### Erro na remoção do nó: {}".format(self))
-            
+
     def __str__(self):
-        return "<{0} g:{1:.2f} h:{2:.2f} f:{3:.2f}>".format(self.state, self.gn, self.hn, self.get_fn())
+        return "<{0} g:{1:.2f} h:{2:.2f} f:{3:.2f}>".format(self.state,
+                                                            self.gn,
+                                                            self.hn,
+                                                            self.get_fn())

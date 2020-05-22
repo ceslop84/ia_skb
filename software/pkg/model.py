@@ -1,13 +1,15 @@
+""" Módulo para o modelo (labirinto) parao jogo Sokoban."""
 from pkg.maze import Maze
 from pkg.state import State
 from pkg.coordinate import Coordinate
-from pkg.action import Action
 from pkg.view import View
 
 
 class Model:
-    """Model implementa um ambiente na forma de um labirinto com paredes e com um agente.
-     A indexação da posição do agente é feita sempre por um par ordenado (lin, col). Ver classe Labirinto."""
+    """ Model implementa um ambiente na forma de um labirinto com paredes e com um agente.
+    A indexação da posição do agente é feita sempre por um par ordenado (lin, col).
+    Ver classe Labirinto.
+     """
 
     def __init__(self, rows, columns):
         """Construtor de modelo do ambiente físico (labirinto)
@@ -16,11 +18,11 @@ class Model:
         """
         self.max_rows = rows
         self.max_columns = columns
-        self.maze = Maze(rows,columns)
+        self.maze = Maze(rows, columns)
         self.current_state = State(rows, columns)
         self.goal_state = State(rows, columns)
         self.view = View(self)
-    
+
     def draw(self, state=None):
         """Desenha o labirinto em formato texto."""
         self.view.draw(state)
@@ -58,28 +60,33 @@ class Model:
             raise ValueError("Coordenadas do agente impossível de serem atribuídas.")
 
     def add_element(self, row, col):
-        coord = Coordinate(row, col)
         """Adiciona estado objetivo.
-        @param row: linha do estado.
-        @param col: coluna do estado."""
+
+        Parameters:
+            row (int): linha do estado.
+            col (int): coluna do estado.
+        """
+
+        coord = Coordinate(row, col)
         if self.check_coord(coord):
             self.current_state.add_element(coord)
         else:
             raise ValueError("Coordenadas do elemento impossível de serem atribuídas.")
 
     def add_goal(self, row, col):
-        coord = Coordinate(row, col)
         """Adiciona estado objetivo.
-        @param row: linha do estado.
-        @param col: coluna do estado."""
+
+        Parameters:
+            row (int): linha do estado.
+            col (int): coluna do estado.
+        """
+
+        coord = Coordinate(row, col)
         if self.check_coord(coord):
             self.goal_state.add_element(coord)
         else:
             raise ValueError("Coordenadas do elemento impossível de serem atribuídas.")
 
-    def execute(self, action):
-         pass
-    
     def distance_index(self, state):
         goals = self.goal_state.get_elements()
         boxes = state.get_elements()
@@ -97,7 +104,7 @@ class Model:
             for row in range(1, self.max_rows-1):
                 # Calcula os graus de bloqueio.
                 if state.map[row][col] == 1:
-                    if self.goal_state.map[row][col] == 1: 
+                    if self.goal_state.map[row][col] == 1:
                         index -= 4
                     else:
                         if state.map[row-1][col] == 0 and self.maze.walls[row-1][col] == 0:

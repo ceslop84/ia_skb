@@ -1,7 +1,9 @@
+""" Módulo de acões para o modelo do jogo Sokoban."""
 from pkg.coordinate import Coordinate
 
 class Action:
 
+    """ Classe de acões para o modelo do jogo Sokoban."""
 
     def __init__(self, direction):
         """Construtor da matriz de estado
@@ -24,8 +26,17 @@ class Action:
             self.delta_row = 1
         if direction == "Oeste":
             self.delta_col = -1
-        
+
     def preview(self, coordinate):
+        """Método que permite obter a coordenada futura a partir de uma posicão de
+        uma determinada coordenada.
+
+        Parameters:
+            coordinate (Coordinate): Coordenadas da posicão atual.
+
+        Returns:
+            Coordinate: coordenada prevista para a direcão.
+        """
         row = coordinate.row
         col = coordinate.col
         if self.direction == "Norte":
@@ -36,10 +47,10 @@ class Action:
             row += 1
         if self.direction == "Oeste":
             col -= 1
-        
+
         return Coordinate(row, col)
 
-    def ispossible(self):
+    def is_possible(self):
         if self.type is None:
             return False
         elif self.type == "Mover":
@@ -52,7 +63,7 @@ class Action:
     def push(self, coordinate):
         self.type = "Empurrar"
         self.element_coordinate = coordinate
-    
+
     def move(self):
         self.type = "Mover"
 
