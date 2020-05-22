@@ -1,0 +1,4 @@
+nós 52732
+custo 23
+DIscarded 39535
+Frontier discarded 11278
