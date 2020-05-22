@@ -18,9 +18,9 @@ class Problem:
         suc_state = deepcopy(state)
         if action.type == "Mover":
             # Mover o agente.
-            new_agent_coord = action.preview(state.get_agent_coord())
+            new_agent_coord = action.preview(state.player)
             if self.model.check_coord(new_agent_coord, suc_state):
-                suc_state.set_agent(new_agent_coord)
+                suc_state.player = new_agent_coord
 
         if action.type == "Empurrar":
             # Mover a caixa.
@@ -29,9 +29,9 @@ class Problem:
             if self.model.check_coord(new_elem_coord, suc_state):
                 suc_state.set_element(elem_coord, new_elem_coord)
             # Mover o agente.
-            new_agent_coord = action.preview(state.get_agent_coord())
+            new_agent_coord = action.preview(state.player)
             if self.model.check_coord(new_agent_coord, suc_state):
-                suc_state.set_agent(new_agent_coord)
+                suc_state.player = new_agent_coord
         return suc_state
 
     def possible_actions(self, maze, state):
@@ -52,7 +52,7 @@ class Problem:
         actions = [action_n, action_l, action_s, action_o]
         walls = maze.walls
         boxes = state.map
-        coordinate = state.get_agent_coord()
+        coordinate = state.player
         row = coordinate.row
         col = coordinate.col
         for action in actions:

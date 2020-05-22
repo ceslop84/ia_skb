@@ -3,7 +3,7 @@ class View:
     def __init__(self, model):
         self.model = model
 
-    def draw_row_division(self):
+    def __draw_row_division(self):
         print("    ", end='')
         for _ in range(len(self.model.maze.walls[0])):
             print("+---", end='')
@@ -14,7 +14,7 @@ class View:
         if state is None:
             state = self.model.current_state
         for row in range(len(self.model.maze.walls)):
-            self.draw_row_division()
+            self.__draw_row_division()
             print(" {0:2d} ".format(row), end='') # Imprime número da linha
 
             for col in range(len(self.model.maze.walls[0])):
@@ -35,4 +35,4 @@ class View:
                     print("|   ", end='')    # Desenha vazio
             print("|")
             if row == (len(self.model.maze.walls) - 1):
-                self.draw_row_division()
+                self.__draw_row_division()
