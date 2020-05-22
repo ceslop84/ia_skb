@@ -12,15 +12,15 @@ class Maze:
         @param max_rows: número de linhas do labirinto
         @param max_columns: número de colunas do labirinto
         """
-        self.max_rows = max_rows
-        self.max_columns = max_columns
+        # self.max_rows = max_rows
+        # self.max_columns = max_columns
         # Matriz que representa o labirinto sendo as posições = 0 aquelas que contêm paredes
         # Criar paredes no entorno do labirinto.
-        self.walls = [[0 for j in range(self.max_columns)] for i in range(self.max_rows)]
-        self.add_vert_wall(0, self.max_rows-1, 0)
-        self.add_vert_wall(0, self.max_rows-1, self.max_rows-1)
-        self.add_horiz_wall(0, self.max_columns-1, 0)
-        self.add_horiz_wall(0, self.max_columns-1, self.max_columns-1)
+        self.walls = [[0 for j in range(max_columns)] for i in range(max_rows)]
+        self.add_vert_wall(0, max_rows-1, 0)
+        self.add_vert_wall(0, max_rows-1, max_rows-1)
+        self.add_horiz_wall(0, max_columns-1, 0)
+        self.add_horiz_wall(0, max_columns-1, max_columns-1)
 
     def add_horiz_wall(self, begin, end, row):
         """Constrói parede horizontal da coluna begin até a coluna end(inclusive) na linha row.
@@ -29,9 +29,9 @@ class Maze:
         @param row: linha onde a parede deve ser colocada."""
         if(end >= begin and
            begin >= 0 and
-           end < self.max_columns and
+           end < len(self.walls[0]) and
            row >= 0 and
-           row < self.max_rows):
+           row < len(self.walls)):
             for col in range(begin, end+1, 1):
                 self.walls[row][col] = 1
 
@@ -42,8 +42,8 @@ class Maze:
         @param col: coluna onde a parede deve ser colocada."""
         if(end >= begin and
            begin >= 0 and
-           end < self.max_rows and
+           end < len(self.walls) and
            col >= 0 and
-           col < self.max_columns):
+           col < len(self.walls[0])):
             for row in range(begin, end+1, 1):
                 self.walls[row][col] = 1

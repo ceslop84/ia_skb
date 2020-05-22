@@ -8,19 +8,19 @@ class State:
         @param max_rows: número de linhas do labirinto
         @param max_columns: número de colunas do labirinto
         """
-        self.agent = Coordinate(0, 0)
-        self.max_rows = max_rows
-        self.max_columns = max_columns
-        self.map = [[0 for j in range(self.max_columns)] for i in range(self.max_rows)]
+        self.player = Coordinate(0, 0)
+        # self.max_rows = max_rows
+        # self.max_columns = max_columns
+        self.map = [[0 for j in range(max_columns)] for i in range(max_rows)]
         self.__element_counter = 0
 
     @property
-    def agent(self):
-        return self.__agent
+    def player(self):
+        return self.__player
 
-    @agent.setter
-    def agent(self, coordinate):
-        self.__agent = coordinate
+    @player.setter
+    def player(self, coordinate):
+        self.__player = coordinate
 
     def get_element_count(self):
         return self.__element_counter
@@ -43,14 +43,14 @@ class State:
 
     def get_elements(self):
         output = list()
-        for col in range(self.max_columns):
-            for row in range(self.max_rows):
+        for col in range(len(self.map[0])):
+            for row in range(len(self.map)):
                 if self.map[row][col] == 1:
                     output.append(Coordinate(row, col))
         return output
 
     def __eq__(self, other):
-        if (self.agent == other.agent and
+        if (self.player == other.player and
                 self.map == other.map):
             return True
         else:

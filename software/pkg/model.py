@@ -16,8 +16,8 @@ class Model:
         @param rows: número de linhas do labirinto
         @param columns: número de colunas do labirinto
         """
-        self.max_rows = rows
-        self.max_columns = columns
+        # self.max_rows = rows
+        # self.max_columns = columns
         self.maze = Maze(rows, columns)
         self.current_state = State(rows, columns)
         self.goal_state = State(rows, columns)
@@ -37,7 +37,7 @@ class Model:
         if (coordinate.col < 0 or coordinate.row < 0):
             # Coordenadas negativas.
             return False
-        elif (coordinate.col >= self.maze.max_columns or coordinate.row >= self.maze.max_rows):
+        elif (coordinate.col >= len(self.maze.walls[0]) or coordinate.row >= len(self.maze.walls)):
             # Local está fora do modelo.
             return False
         elif self.maze.walls[coordinate.row][coordinate.col] == 1:
@@ -46,16 +46,16 @@ class Model:
         elif state.map[coordinate.row][coordinate.col] == 1:
             # Existe uma caixa no local.
             return False
-        elif state.get_agent_coord() == coordinate:
+        elif state.player == coordinate:
             # Local onde está o agente posicionado.
             return False
         else:
             return True
 
-    def set_agent_coord(self, row, col):
+    def set_player_coord(self, row, col):
         coord = Coordinate(row, col)
         if self.check_coord(coord):
-            self.current_state.set_agent(coord)
+            self.current_state.player = coord
         else:
             raise ValueError("Coordenadas do agente impossível de serem atribuídas.")
 
@@ -100,8 +100,8 @@ class Model:
 
     def block_index(self, state):
         index = state.get_element_count() * 4
-        for col in range(1, self.max_columns-1):
-            for row in range(1, self.max_rows-1):
+        for col in range(1, len(self.maze.walls[0])-1):
+            for row in range(1, len(self.maze.walls)-1):
                 # Calcula os graus de bloqueio.
                 if state.map[row][col] == 1:
                     if self.goal_state.map[row][col] == 1:
