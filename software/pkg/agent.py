@@ -1,4 +1,5 @@
 """ Módulo para o agente de inteligência artificial."""
+import time
 from pkg.node import Node
 from pkg.problem import Problem
 
@@ -38,7 +39,7 @@ class Agent:
         self.counter = -1
         self.plan = None
 
-    def deliberate(self):
+    def deliberate(self, search_type):
         """ Método para deliberar sobre a solucão do problema.
 
         Returns:
@@ -46,8 +47,8 @@ class Agent:
         """
         # Primeira chamada, realiza busca para elaborar um plano
         if self.counter == -1:
-            # 0 = custo uniforme, 1 = A* com colunas, 2 = A* com dist Euclidiana
-            self.plan = self.cheapest_first_search(2)
+            # 0 = custo uniforme, 1 = A* índice de distãncia, 2 = A* índice de bloqueios
+            self.plan = self.cheapest_first_search(search_type)
 
         # Nas demais chamadas, executa o plano já calculado
         self.counter += 1
@@ -97,12 +98,12 @@ class Agent:
         realizada na chamada.
 
         Parameters:
-            searchType: 0=custo uniforme, 1=A* com heurística hn1; 2=A* com hn2
+            searchType: 0 = custo uniforme, 1 = índice de distãncia, 2 = índice de bloqueios
 
         Returns:
             Node: plano encontrado
         """
-
+        start_time = time.time()
         # Algoritmo de busca
         solution = None
         # Atributos para análise de desempenho
@@ -204,6 +205,15 @@ class Agent:
                     explored_dicarded_nodes_ct += 1
 
         if solution is not None:
+            end_time = time.time()
+            diff_time = end_time-start_time
+            print(f"Tempo: {diff_time}s")
+            print(f"Total passos: {solution.depth}")
+            print(f"Custo: {solution.get_fn()}")
+            print(f"Nós gerados: {nodes_ct}")
+            print(f"Nós descartados: {explored_dicarded_nodes_ct}")
+            print(f"Nós de fronteira descartados: {frontier_dicarded_nodes_ct}")
+            print("\n")
             return build_plan(solution)
         else:
             return None
