@@ -23,7 +23,6 @@ Nós gerados: 1755
 Nós descartados: 2008
 Nós de fronteira descartados: 485
 
-
 Passo 1...
 
     +---+---+---+---+---+---+---+

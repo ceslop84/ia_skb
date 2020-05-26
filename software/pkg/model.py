@@ -93,7 +93,7 @@ class Model:
         else:
             raise ValueError("Coordenadas do elemento impossível de serem atribuídas.")
 
-    def distance_index(self, state):
+    def distance_heuristic(self, state):
         """ Método para calcular a distância em coluna do estado passado com
         argumento até o estado objetivo.
 
@@ -105,15 +105,19 @@ class Model:
         """
         goals = self.goal_state.get_elements()
         boxes = state.get_elements()
-        great_dist = -1
-        for box in boxes:
-            for goal in goals:
+        dist_sum = 0
+        for goal in goals:
+            small_dist = len(self.maze.walls) * len(self.maze.walls[0])
+            for box in boxes:
                 dist = goal.distance(box)
-                if dist > great_dist:
-                    great_dist = dist
-        return great_dist
+                if dist < small_dist:
+                    small_dist = dist
+                    close_box = box
+            dist_sum += small_dist
+            boxes.remove(close_box)
+        return dist_sum
 
-    def block_index(self, state):
+    def block_heuristic(self, state):
         """ Método para calcular o número de graus de bloqueio que
         o estado em análise apresenta.
 
@@ -123,20 +127,25 @@ class Model:
         Returns:
             double: valor obtido com o caĺculo da funcão HN2.
         """
-        index = len(state.get_elements()) * 4
+        free_sides = len(state.get_elements()) * 4
         for col in range(1, len(self.maze.walls[0])-1):
             for row in range(1, len(self.maze.walls)-1):
                 # Calcula os graus de bloqueio.
                 if state.map[row][col] == 1:
                     if self.goal_state.map[row][col] == 1:
-                        index -= 4
+                        free_sides -= 4
                     else:
                         if state.map[row-1][col] == 0 and self.maze.walls[row-1][col] == 0:
-                            index -= 1
+                            free_sides -= 1
                         if state.map[row+1][col] == 0 and self.maze.walls[row+1][col] == 0:
-                            index -= 1
+                            free_sides -= 1
                         if state.map[row][col-1] == 0 and self.maze.walls[row][col-1] == 0:
-                            index -= 1
+                            free_sides -= 1
                         if state.map[row][col+1] == 0 and self.maze.walls[row][col+1] == 0:
-                            index -= 1
-        return index
+                            free_sides -= 1
+
+        dist_sum = self.distance_heuristic(state)
+
+        block_index = free_sides/(len(state.get_elements()) * 4)
+        block_h = dist_sum - block_index
+        return block_h

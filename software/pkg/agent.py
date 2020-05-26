@@ -78,7 +78,7 @@ class Agent:
             double: valor obtido com o caĺculo da funcão HN1.
         """
 
-        return self.model.distance_index(state)
+        return self.model.distance_heuristic(state)
 
     def hn2(self, state):
         """Implementa uma heurísitca - número 2 - para a estratégia A*.
@@ -91,7 +91,7 @@ class Agent:
         Returns:
             double: valor obtido com o caĺculo da funcão HN2.
         """
-        return self.model.block_index(state)
+        return self.model.block_heuristic(state)
 
     def cheapest_first_search(self, search_type):
         """ Realiza busca com a estratégia de custo uniforme ou A* conforme escolha
@@ -207,6 +207,7 @@ class Agent:
         if solution is not None:
             end_time = time.time()
             diff_time = end_time-start_time
+            print("\n")
             print(f"Tempo: {diff_time}s")
             print(f"Total passos: {solution.depth}")
             print(f"Custo: {solution.get_fn()}")

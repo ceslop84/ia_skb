@@ -16,14 +16,12 @@ Inicialização...
   6 |XXX|XXX|XXX|XXX|XXX|XXX|XXX|
     +---+---+---+---+---+---+---+
 
-
 Tempo: 73.20834517478943s
 Total passos: 29
 Custo: 29.0
 Nós gerados: 1704
 Nós descartados: 1919
 Nós de fronteira descartados: 469
-
 
 Passo 1...
 
